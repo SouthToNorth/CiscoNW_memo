@@ -1,4 +1,4 @@
-#第9天
+# 第9天
 
 **访问控制清单**
 
@@ -54,7 +54,7 @@
 
 **标准的编号ACLs是可以应用到路由器上的最为基本的ACL形式**。它们是最易于配置的，因此其可用的过滤有着最大的限制。**它们仅能依据源IP地址或源网络进行过滤**。识别标准ACL的方法就是看配置行的前导数字；标准ACLs的该数字为`1`到`99`。
 
-**扩展的编号ACLs可以有多得多的粒度, 但配置和故障排除起来会更难应付。**它们可以对某个目的或源IP地址或网络、某种协议类型以及某个端口号进行过滤（they can filter a destination or source IP address or network, a protocol type, and a port number）。可用于配置扩展ACLs的编号为`100`到`199`(包含`100`和`199`）。
+**扩展的编号ACLs可以有多得多的粒度, 但配置和故障排除起来会更难应付**。它们可以对某个目的或源IP地址或网络、某种协议类型以及某个端口号进行过滤（they can filter a destination or source IP address or network, a protocol type, and a port number）。可用于配置扩展ACLs的编号为`100`到`199`(包含`100`和`199`）。
 
 **命名ACLs允许给某过滤清单一个名称，而不是编号**。这就令到在路由器配置中更易于区别这些ACLs了。命名ACLs可以是标准及扩展ACLs; 在该ACLs的初始化配置行处，可以选择其作为标准ACL还是扩展ACL。
 
@@ -64,19 +64,19 @@
 - ACL规则，ACL rules
 - ACLs的命令语法，command syntax for ACLs
 
-##端口号，Port Numbers
+## 端口号，Port Numbers
 
 如要通过CCNA考试，以及要在实际网络上工作，就必须要记住这些常见的端口号。在客户盯着你做事时，去查一下常见端口号是不可能的。这里有些你会碰到且需掌握的一些最常见的端口号。
 
 <table>
 <tr><th>端口</th><th>服务</th><th>端口</th><th>服务</th></tr>
-<tr><td>`20`</td><td>FTP数据</td><td>`80`</td><td>HTTP</td></tr>
-<tr><td>`21`</td><td>FTP控制</td><td>`110`</td><td>POP3</td></tr>
-<tr><td>`22`</td><td>SSH</td><td>`119`</td><td>NNTP</td></tr>
-<tr><td>`23`</td><td>Telnet</td><td>`123`</td><td>NTP</td></tr>
-<tr><td>`25`</td><td>SMTP</td><td>`161/162`</td><td>SNMP</td></tr>
-<tr><td>`53`</td><td>DNS</td><td>`443`</td><td>HTTPS(带有SSL的HTTP)</td></tr>
-<tr><td>`69`</td><td>TFTP</td><td></td><td></td></tr>
+<tr><td>20</td><td>FTP数据</td><td>80</td><td>HTTP</td></tr>
+<tr><td>21</td><td>FTP控制</td><td>110</td><td>POP3</td></tr>
+<tr><td>22</td><td>SSH</td><td>119</td><td>NNTP</td></tr>
+<tr><td>23</td><td>Telnet</td><td>123</td><td>NTP</td></tr>
+<tr><td>25</td><td>SMTP</td><td>161/162</td><td>SNMP</td></tr>
+<tr><td>53</td><td>DNS</td><td>443</td><td>HTTPS(带有SSL的HTTP)</td></tr>
+<tr><td>69</td><td>TFTP</td><td></td><td></td></tr>
 </table>
 
 ## 访问控制清单规则，Access Control List Rules
@@ -100,11 +100,11 @@
 某些工程师在他们的ACL未如预期那样运行时感到迷惑。路由器会看看ACL的顶行，在发现匹配后，就会停在那里且不再对其它行进行检查了。为此，需要将**最明确的(最小的)那些条目放在ACL的顶部**（you need to put the most specific entries at the top of the ACL）。比如在利用ACL来阻挡主机`172.16.1.1`时的做法。
 
 <table>
-<tr><td>`Permit 10.0.0.0`</td><td></td><td>没有匹配的</td></tr>
-<tr><td>`Permit 192.168.1.1`</td><td></td><td>没有匹配的</td></tr>
-<tr><td>`Permit 172.16.0.0`</td><td>`〇`</td><td>匹配了-放行</td></tr>
-<tr><td>`Permit 172.16.1.0`</td><td></td><td>不会处理了</td></tr>
-<tr><td>`Deny 172.16.1.1`</td><td></td><td>不会处理了</td></tr>
+<tr><td>Permit 10.0.0.0</td><td></td><td>没有匹配的</td></tr>
+<tr><td>Permit 192.168.1.1</td><td></td><td>没有匹配的</td></tr>
+<tr><td>Permit 172.16.0.0</td><td>〇</td><td>匹配了-放行</td></tr>
+<tr><td>Permit 172.16.1.0</td><td></td><td>不会处理了</td></tr>
+<tr><td>Deny 172.16.1.1</td><td></td><td>不会处理了</td></tr>
 </table>
 
 在本例中，应该将`Deny 172.16.1.1`这行，放到顶部，或至少应在语句（statement）`Permit 172.16.0.0`之前。
@@ -116,11 +116,11 @@
 这条规则另很多工程师为难。在每条ACL的底部，有着一条看不见的命令。该命令设置为拒绝尚未匹配的所有流量。而阻止此命令起作用的唯一方法，就是在底部手动配置一条`permit all`命令。在取得来自IP地址`172.20.1.1`的某个进入的数据包时的做法。
 
 <table>
-<tr><td>`Permit 10.0.0.0`</td><td>无匹配项</td></tr>
-<tr><td>`Permit 192.168.1.1`</td><td>无匹配项</td></tr>
-<tr><td>`Permit 172.16.0.0`</td><td>无匹配项</td></tr>
-<tr><td>`Permit 172.16.1.0`</td><td>无匹配项</td></tr>
-<tr><td>`[Deny all]`</td><td>匹配 -- 丢弃数据包</td></tr>
+<tr><td>Permit 10.0.0.0</td><td>无匹配项</td></tr>
+<tr><td>Permit 192.168.1.1</td><td>无匹配项</td></tr>
+<tr><td>Permit 172.16.0.0</td><td>无匹配项</td></tr>
+<tr><td>Permit 172.16.1.0</td><td>无匹配项</td></tr>
+<tr><td>[Deny all]</td><td>匹配 -- 丢弃数据包</td></tr>
 </table>
 
 你实际上想要路由器放行该数据包，但却拒绝了。原因就在于那条隐式的`deny all`命令了，而该命令实际上是一种安全手段。
@@ -257,21 +257,21 @@ ACLs的基本规则就是保持简短且只专注于做一件事情。许多新�
 CCNA考试中反掩码计算的一种简易方法，就是把一个数与子网掩码相加，确保它们的和为`255`。那么如果子网掩码的某个`8`位值为`192`时，需要加上`63`才等于`255`。而如果子网掩码的某个`8`位值为`255`, 则需要加的就是`0`。看看下面的例子吧。
 
 <table>
-<tr><th>子网掩码</th><td>`255`</td><td>`255`</td><td>`255`</td><td>`192`</td></tr>
-<tr><th>反掩码</th><td>`0`</td><td>`0`</td><td>`0`</td><td>`63`</td></tr>
-<tr><th>相加之和</th><td>`255`</td><td>`255`</td><td>`255`</td><td>`255`</td></tr>
+<tr><th>子网掩码</th><td>255</td><td>255</td><td>255</td><td>192</td></tr>
+<tr><th>反掩码</th><td>0</td><td>0</td><td>0</td><td>63</td></tr>
+<tr><th>相加之和</th><td>255</td><td>255</td><td>255</td><td>255</td></tr>
 </table>
 
 <table>
-<tr><th>子网掩码</th><td>`255`</td><td>`255`</td><td>`224`</td><td>`0`</td></tr>
-<tr><th>反掩码</th><td>`0`</td><td>`0`</td><td>`31`</td><td>`255`</td></tr>
-<tr><th>相加之和</th><td>`255`</td><td>`255`</td><td>`255`</td><td>`255`</td></tr>
+<tr><th>子网掩码</th><td>255</td><td>255</td><td>224</td><td>0</td></tr>
+<tr><th>反掩码</th><td>0</td><td>0</td><td>31</td><td>255</td></tr>
+<tr><th>相加之和</th><td>255</td><td>255</td><td>255</td><td>255</td></tr>
 </table>
 
 <table>
-<tr><th>子网掩码</th><td>`255`</td><td>`128`</td><td>`0`</td><td>`0`</td></tr>
-<tr><th>反掩码</th><td>`0`</td><td>`127`</td><td>`255`</td><td>`255`</td></tr>
-<tr><th>相加之和</th><td>`255`</td><td>`255`</td><td>`255`</td><td>`255`</td></tr>
+<tr><th>子网掩码</th><td>255</td><td>128</td><td>0</td><td>0</td></tr>
+<tr><th>反掩码</th><td>0</td><td>127</td><td>255</td><td>255</td></tr>
+<tr><th>相加之和</th><td>255</td><td>255</td><td>255</td><td>255</td></tr>
 </table>
 
 在想要ACL与匹配某个子网或是整个网络时，就需要输入一个反掩码。比如，要匹配`172.20.1.0 255.255.224.0`, 就需要输入下面的命令。
@@ -437,7 +437,7 @@ Router(config-ext-nacl)#permit ip any any
 命名ACL的验证，可通过下面的命令完成。
 
 - `show ip access-list`: 显示设备上所创建的所有ACLs
-- `show ip access-list <acl_name>`: 显示某条特定的命名ACL
+- `show ip access-list <acl_name>: 显示某条特定的命名ACL
 
 ```
 Router(config)#do show ip access-lists
@@ -533,7 +533,7 @@ Router(config-std-nacl)#
 
 **Remove an ACL Line**
 
-要移除某个ACL行，只需简单地敲入`no <seq_number>`命令即可，就如同下面的例子中行`20`被删除掉了。
+要移除某个ACL行，只需简单地敲入`no <seq_number>命令即可，就如同下面的例子中行`20`被删除掉了。
 
 ```
 Router#conf t
@@ -554,7 +554,7 @@ Router(config-std-nacl)#
 
 **Resequence an ACL**
 
-要对某条ACL重新编号，使用`ip access-list resequence <acl_name> <starting_seq_number> <step_to_increment>`命令。该命令的行为可由下面的例子进行检验。
+要对某条ACL重新编号，使用`ip access-list resequence <acl_name> <starting_seq_number> <step_to_increment>命令。该命令的行为可由下面的例子进行检验。
 
 ```
 Router(config)#ip access-list resequence test 100 20
