@@ -4,7 +4,7 @@
 
 **Access Control Lists**
 
-##第九天的任务
+## 第九天的任务
 
 - 阅读今天的课文
 - 完成今天的实验
@@ -36,7 +36,7 @@
 	- 日志选项, log option
 	- 在某个网络环境下配置并验证ACLs
 
-##ACL基础
+## ACL基础
 
 **ACL Basics**
 
@@ -78,12 +78,12 @@
 <tr><td>`53`</td><td>DNS</td><td>`443`</td><td>HTTPS(带有SSL的HTTP)</td></tr>
 <tr><td>`69`</td><td>TFTP</td><td></td><td></td></tr>
 </table>
- 
+
 ## 访问控制清单规则，Access Control List Rules
 
 这是最难掌握的部分之一。我从没有在哪本思科手册中见到里面曾写过一条完整的规则清单。仅有一些手册对其简单概过或是稍加解释，另外一些则完全不讲。难点就在于这些规则一直都在用，但到目前为止你都是通过试误法发现的它们（the difficulty is that the rules always apply but unitil now, you found them only by trial and error）。下面就是你需要知道的这些规则了。
 
-###ACL规则一 -- 在每个接口的每个方向，只使用一条ACL
+### ACL规则一 -- 在每个接口的每个方向，只使用一条ACL
 
 **Use only one ACL per interface per direction**
 
@@ -93,7 +93,7 @@
 
 *图9.1 -- 接口上的一个方向仅做一条ACL*
 
-###ACL规则二 -- ACLs行自顶向下进行处理
+### ACL规则二 -- ACLs行自顶向下进行处理
 
 **the lines are processed top-down**
 
@@ -109,7 +109,7 @@
 
 在本例中，应该将`Deny 172.16.1.1`这行，放到顶部，或至少应在语句（statement）`Permit 172.16.0.0`之前。
 
-###ACL规则三 -- 在每条ACL的底部，都有一句隐式的“deny all”
+### ACL规则三 -- 在每条ACL的底部，都有一句隐式的“deny all”
 
 **There is an implicit "deny all" at the bottom of every ACL**
 
@@ -125,8 +125,8 @@
 
 你实际上想要路由器放行该数据包，但却拒绝了。原因就在于那条隐式的`deny all`命令了，而该命令实际上是一种安全手段。
 
-###ACL规则四 -- 路由器是不能过滤自己产生的流量的
- 
+### ACL规则四 -- 路由器是不能过滤自己产生的流量的
+
 **The router can't filter self-generated traffic.**
 
 这在某个实际网络上于部署ACL前进行测试时，会造成混乱。路由器不会过滤其自身产生的流量。在图9.2中有演示。
@@ -135,8 +135,8 @@
 
 *图9.2 -- 对自身流量的ACL测试*
 
-###ACL规则五 -- 不能对运行中的ACL进行编辑
- 
+### ACL规则五 -- 不能对运行中的ACL进行编辑
+
 **You can't edit a live ACL.**
 
 实际上，在`IOS 12.4`之前的版本中，只能对命名ACL进行编辑, 而不能对标准ACL或扩展ACLs两种进行编辑。这曾是ACL架构的一个局限（this was a limitation of ACL architecture）。在`IOS 12.4`之前，如想要编辑标准ACL或扩展ACL，就必须按照以下步骤进行（这里使用`list 99`作为例子）。
@@ -208,8 +208,8 @@ Router(config-if)#ip access-group 1 in ← reapply to the interface
 
 如使用的是Packet Tracer, 那么这些命可能不会工作。同时，请一定在某台路由器上尝试这些命令，因为它们是考试考点。**记住在编辑ACL前要先在接口上关闭它（此时它就不再是活动的了），以避免一些奇怪或是不可预期的行为发生**。而在`IOS 12.4`及以后的版本中，如何来编辑ACLs，会在后面演示。
 
-###ACL规则六 -- 在接口上关闭ACL
- 
+### ACL规则六 -- 在接口上关闭ACL
+
 **Disable the ACL on the interface.**
 
 在打算短时间对ACL进行测试或是撤销ACL时，许多工程师都会将其完全删除掉。这是不必要的。如你要停止ACL运行，只需简单地将其从所应用到的接口上移除即可。
@@ -220,7 +220,7 @@ Router(config-if)#no ip access-group 1 in
 Router(config-if)#^Z
 ```
 
-###ACL规则七 -- 可重用同一ACL
+### ACL规则七 -- 可重用同一ACL
 
 **You can reuse the same ACL.**
 
@@ -229,15 +229,15 @@ Router(config-if)#^Z
 ![ACL的重用](images/0903.png)
 
 *图9.3 -- ACL的重用*
- 
-###ACL规则八 -- ACL应保持简短
- 
+
+### ACL规则八 -- ACL应保持简短
+
 ACLs的基本规则就是保持简短且只专注于做一件事情。许多新手的思科工程师，将其ACL延伸到数行那么长，最后，经深思熟虑后，就可以紧缩到少数几行的配置。前面提到的将那些最为特定的（最小的）行放在ACL的顶部。这是好的做法，从而可以节约路由器CPU的执行周期。
 
 优良的ACL配置技能，来自于知识和操练。
 
 ###ACL规则九 -- 尽可能将ACL放在接近源的地方
- 
+
 思科文档建议将扩展ACL尽量放在离源近的地方，而将标准ACL尽量放在离目的近的地方，因为这可以避免不必要的开销，又能放行那些合法流量。
 
 ![将ACL尽量放在离源近的地方](images/0904.png)
@@ -247,7 +247,7 @@ ACLs的基本规则就是保持简短且只专注于做一件事情。许多新�
 >Farai 指出 -- “思科官方建议是扩展ACL尽量离源近，而标准ACL尽量离目的近”。
 
 ##反掩码
- 
+
 **Wildcard Masks**
 
 **因为在ACLs及某些路由协议的配置中，反掩码是命令行的组成部分，所有有必要学习反掩码**。之所有存在反掩码，是因为需要有某种方式来告诉路由器，我们要去匹配IP地址或网络地址的哪些部分。
@@ -295,15 +295,15 @@ CCNA考试中反掩码计算的一种简易方法，就是把一个数与子网�
 请阅读子网划分和VLSM部分的课文，以更好地掌握此概念。
 
 ##访问控制清单的配置
- 
+
 **Configuring Access Control Lists**
 
 熟能生巧，对于任何技能都是适用的。如同前面提到的，你应该在路由器上输入这里给出的每个例子，完成尽可能多的实验，并构建出自己的实例。在考试和现实世界中，你都需要精准快速的设计ACL。
 
 接下来的章节中出现的标准和扩展ACLs都是编号ACLs。它们是配置ACLs的经典方法。命名ACLs是配置ACLs的另一种方式，将在其后的部分出现。
 
-###标准ACLs
- 
+### 标准ACLs
+
 **Standard ACLs**
 
 标准的编号ACLs是最易于配置的，所以拿它来作为开端是最好的。**标准ACLs只能实现依据源网络或源IP地址的过滤**。
@@ -327,8 +327,8 @@ Router(config)#access-list 1 permit 10.1.0.0 0.0.255.255
 
 此ACL应在服务器侧的路由器上应用。又记得在清单的底部有一条隐式的`deny all`，所以其它流量都会给阻止掉。
 
-###扩展ACLs
- 
+### 扩展ACLs
+
 **Extended ACLs**
 
 **扩展的编号ACLs中可以构建出细得多的粒度**。而正是由于有了细得多的粒度，令到扩展的编号ACLs变得诡异起来。藉由扩展的编号ACLs，可以对源或目的网络地址、端口、协议及服务进行过滤。
@@ -373,7 +373,7 @@ access-list 101 deny tcp 10.1.0.0 0.0.255.255 host 172.30.1.1 eq telnet
 
 关键字`[established]`告诉路由器仅放行在网络内部的主机所发起的流量。三次握手标志（ACK或RST位）将表明这点（the three-way handshake flags, ACK or RST bit, will indicate this）。
 
-###命名ACLs
+### 命名ACLs
 
 **Named ACLs**
 
@@ -450,7 +450,7 @@ Standard IP access list test
 
 要知道如何来增加或是删除某条命令ACL中的条目，请参考下面的“ACL序号（ACL Sequence Numbers）”小节。
 
-###应用ACLs
+### 应用ACLs
 
 **Applying ACLs**
 
@@ -481,7 +481,7 @@ Router(config)#int FastEthernet0/0
 Router(config-if)#ip access-group BlockWEB in
 ```
 
-##ACL序号
+## ACL序号
 
 **ACL Sequence Numbers**
 
@@ -506,8 +506,8 @@ Standard IP access list test
 
 注意到**在路由器运行配置中，序号并不会显示出来**。要查看它们，必须执行一个`show [ip] access-list`命令。
 
-##加入一个ACL行
- 
+## 加入一个ACL行
+
 **Add an ACL Line**
 
 **要加入一个新的ACL行，只需简单地输入新的序号并接着输入该ACL语句**。下面的例子展示如何往现有的ACL中加入行`15`。
@@ -529,7 +529,7 @@ Standard IP access list test
 Router(config-std-nacl)#
 ```
 
-###移除一个ACL行
+### 移除一个ACL行
 
 **Remove an ACL Line**
 
@@ -550,7 +550,7 @@ Standard IP access list test30 permit 10.1.1.1
 Router(config-std-nacl)#
 ```
 
-###为某条ACL重新编号
+### 为某条ACL重新编号
 
 **Resequence an ACL**
 
@@ -567,8 +567,8 @@ Router(config-std-nacl)#
 ```
 
 命令`resequence`则会创建新的序号，自`100`开始，每个新行增加`20`。译者注：在更新的IOS版本中，此命令可指定开始序号及步进序号。
- 
-###ACL日志
+
+### ACL日志
 
 **ACL Logging**
 
@@ -616,8 +616,8 @@ Extended IP access list test
 ```
 
 **ACL日志在查看到底那些数据包被丢弃或放行的故障排除中，会是非常有用的**, 但在现实世界情形中（此内容超出CCNA考试范围）不得提的是：包含`[log]`或`[log-input]`关键字的ACL条目是为路由器进行线程交换的, 与之相反，现代路由器中， 默认都是经由CEF交换的（ACL entries that contain `[log]` or `[log-input]` keyword are process-switched by the router, as opposed to being CEF-switched, which is the default in modern routers）。这需要更多的路由器CPU周期，因而导致在有大量与被记录的ACL条目匹配时，出现问题。
- 
-###使用ACLs来限制Telnet和SSH访问
+
+### 使用ACLs来限制Telnet和SSH访问
 
 **Using ACLs to Limit Telnet and SSH Access**
 
@@ -647,7 +647,7 @@ access-class VTY_ACCESS in
 .....
 ```
 
-##ACLs故障排除和验证
+## ACLs故障排除和验证
 
 **Trubleshooting and Verifying ACLs**
 
@@ -657,7 +657,7 @@ access-class VTY_ACCESS in
 - 检查所允许的网络
 - 检查应用ACL的接口及方向
 
-###查看ACL统计信息
+### 查看ACL统计信息
 
 在成功配置一条ACL并将其应用到某个接口上之后，某种可以验证该ACL正确行为的手段非常重要，尤其是某个ACL条目被使用到的次数。基于匹配次数，就可以对过滤策略进行调整，或者对ACLs进行增强，以实现整体安全性的提升。而根据需求的不同，可以在全局层面或者单个接口上（从`IOS 12.4`开始）查看ACL统计信息。
 
@@ -691,13 +691,13 @@ Extended IP access list 100 in
 
 如未有指定方向，则应用到该特定接口上的任何进或出方向的ACL都将显示出来。此特性也叫做“ACL可管理能力（ACL Manageability）”，自`IOS 12.4`开始可用。
 
-###检查那些放行的网络
+### 检查那些放行的网络
 
 **Verifying the Permitted Networks**
 
 有的时候，特别实在那些必须配置很多ACLs的大型网络中，在配置ACL条目是就会犯下一些书写错误，而这就会导致不同接口上有错误的流量被阻止。为了检查那些正确的ACL条目（也就是permit及deny语句），可以照前面章节中讲到的那样，使用`show run | section access-list`或者`show ip access-list`命令。
 
-###检查ACL的接口和方向
+### 检查ACL的接口和方向
 
 **Verifying the ACL Interface and Direction**
 
@@ -705,7 +705,7 @@ Extended IP access list 100 in
 
 为此，可以使用多种命令，包括`show run`及`show ip access-list interface <interface> | [in|out]`命令。
 
-##第九天的问题
+## 第九天的问题
 
 1. You can have a named, extended, and standard ACL on one incoming interface. True or false?
 2. You want to test why your ping is blocked on your Serial interface. You ping out from the router but it is permitted. What went wrong? (Hint: See ACL Rule 4.)
@@ -714,7 +714,7 @@ Extended IP access list 100 in
 5. How can you verify ACL statistics per interface (name the command)?
 6. How do you apply an ACL to an interface?
 
-##第九天问题的答案
+## 第九天问题的答案
 
 1. False. You can only configure a single ACL on an interface per direction.
 2. A router won’t filter traffic it generated itself.
@@ -723,9 +723,9 @@ Extended IP access list 100 in
 5. Issue the show ip access-list interface command.
 6. Issue the `ip access-group <ACL_name> [in|out]` command.
 
-##第九天的实验
+## 第九天的实验
 
-###标准ACL实验
+### 标准ACL实验
 
 **Standard ACL Lab**
 
@@ -792,7 +792,7 @@ Packet sent with a source address of 192.168.1.1
 Success rate is 100 percent (5/5), round-trip min/avg/max = 31/31/32 ms
 ```
 
-###扩展ACL实验
+### 扩展ACL实验
 
 **拓扑图**
 
@@ -842,7 +842,7 @@ RouterA> ←Hit Control+Shift+6 together and then let go and press the X key to 
 
 >**注意：**我们会在其它实验中涉及ACLs，但你真的需要完全地掌握这些内容。为此，要尝试其它的TCP端口，比如`80`、`25`等等。另外，要试试那些UDP端口，比如`53`。如没有将一台PC接上路由器，则是无法对这些其它端口进行测试的。
 
-##命名ACL实验
+## 命名ACL实验
 
 **拓扑图**
 
@@ -916,4 +916,3 @@ Success rate is 100 percent (5/5), round-trip min/avg/max = 31/34/47 ms
 要放行EIGRP，要像这样指定。
 
 `access-list 101 permit eigrp any any`
-
