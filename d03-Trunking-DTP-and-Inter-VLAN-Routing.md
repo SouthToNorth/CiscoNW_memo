@@ -1,8 +1,6 @@
 # 第3天
 
-**中继、DTP 及 VLAN 间路由**
-
-**Trunking, DTP, and Inter-VLAN Routing**
+**端口汇聚、DTP 及 VLAN 间路由（Trunking, DTP, and Inter-VLAN Routing）**
 
 
 ## 第三天的任务
@@ -793,4 +791,3 @@ Approximate round trip times in milli-seconds:
 - 在两台交换机上都配置 VTP 修剪（VTP pruning）
 - 在两台交换机上检查（展示） VTP 配置
 - 在两台交换机上配置不同的 VTP 域及口令，并重复上述过程；观察结果的不同
-
